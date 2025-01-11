@@ -76,7 +76,7 @@ public:
 LGFX_TDisplay tft;
 uint32_t lv_width = LV_HOR_RES;
 uint32_t lv_height = LV_VER_RES;
-uint8_t disp_buf[240 * 50 * sizeof(lv_color_t)];
+uint8_t disp_buf[240 * 15 * sizeof(lv_color_t)];
 
 static void disp_flush(lv_display_t *disp, const lv_area_t *area, unsigned char *color_p) {
     uint32_t w = lv_area_get_width(area);
@@ -137,6 +137,7 @@ void setup_custom() {
     // lv_demo_benchmark();
 
     xTaskCreate(info_task, "info", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
+    xTaskCreate(wifi_task, "wifi", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
     xTaskCreate(loop_task, "loop", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
 }
 

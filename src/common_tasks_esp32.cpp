@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 #include <FastLED.h>
+#include <WiFi.h>
 
 void ws2812_task(void *task) {
     uint8_t led_pin = (uint32_t)task & 0xff;
@@ -65,6 +66,31 @@ void info_task(void *task) {
     log_d("Free heap: %d", ESP.getFreeHeap());
     log_d("Total PSRAM: %d", ESP.getPsramSize());
     log_d("Free PSRAM: %d", ESP.getFreePsram());
+
+    vTaskDelete(NULL);
+}
+
+void wifi_task(void *task) {
+    log_d("WiFi task");
+
+    WiFi.mode(WIFI_STA);
+    WiFi.disconnect();
+
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    int16_t count = WiFi.scanNetworks();
+    if (count == 0) {
+        log_v("No WiFI APs found");
+    } else {
+        for (int16_t ii=0; ii<count; ii++) {
+            log_v("%02d: %s (%d dBm) %s [BSSID: %s]",
+                ii+1,
+                WiFi.SSID(ii).c_str(),
+                WiFi.RSSI(ii), 
+                WiFi.encryptionType(ii) == WIFI_AUTH_OPEN ? "Open" : "Protected",
+                WiFi.BSSIDstr(ii).c_str()
+            );
+        }
+    }
 
     vTaskDelete(NULL);
 }
