@@ -18,7 +18,6 @@ void loop_custom();
 #include "esp32s3_n16r8.h"
 #elif PIOENV_esp32s3_n8r2
 #include "esp32s3_n8r2.h"
-#include "common_tasks.h"
 #endif
 
 void setup() {
