@@ -1,4 +1,4 @@
-[https://github.com/nochkin/esp_test.git](https://github.com/nochkin/esp_test)
+[https://github.com/nochkin/esp_test](https://github.com/nochkin/esp_test)
 
 # ESP Test
 
