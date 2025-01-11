@@ -9,7 +9,7 @@ void ws2812_task(void *task) {
     int8_t hue_step = 1;
     CRGB leds[1];
 
-    Serial.printf("WS2812 task on GPIO %i\n", led_pin);
+    log_d("WS2812 task on GPIO %i", led_pin);
 
     switch (led_pin) {
 #ifdef CONFIG_IDF_TARGET_ESP32S3
@@ -41,7 +41,7 @@ void led_task(void *task) {
     uint8_t brightness = 0;
     int8_t brightness_step = 1;
 
-    Serial.printf("LED task on GPIO %i\n", led_pin);
+    log_d("LED task on GPIO %i", led_pin);
 
     while (true) {
         analogWrite(led_pin, brightness);
@@ -49,6 +49,24 @@ void led_task(void *task) {
         if (brightness == 255 || brightness == 0) { brightness_step = -brightness_step; }
         vTaskDelay(5 / portTICK_PERIOD_MS);
     }
+}
+
+void info_task(void *task) {
+    uint64_t mac = ESP.getEfuseMac();
+    log_d("MAC: %02X:%02X:%02X:%02X:%02X:%02X",
+        (uint8_t)(mac >> 40),
+        (uint8_t)(mac >> 32),
+        (uint8_t)(mac >> 24),
+        (uint8_t)(mac >> 16),
+        (uint8_t)(mac >> 8),
+        (uint8_t)(mac));
+
+    log_d("Total heap: %d", ESP.getHeapSize());
+    log_d("Free heap: %d", ESP.getFreeHeap());
+    log_d("Total PSRAM: %d", ESP.getPsramSize());
+    log_d("Free PSRAM: %d", ESP.getFreePsram());
+
+    vTaskDelete(NULL);
 }
 
 #endif

@@ -8,6 +8,7 @@
 #include <LovyanGFX.hpp>
 
 #include "esp32_tdisplay.h"
+#include "common_tasks_esp32.h"
 
 class LGFX_TDisplay : public lgfx::LGFX_Device
 {
@@ -85,12 +86,18 @@ static void disp_flush(lv_display_t *disp, const lv_area_t *area, unsigned char 
     lv_display_flush_ready(disp);
 }
 
+void show_lv_mem() {
+    lv_mem_monitor_t mon;
+    lv_mem_monitor(&mon);
+    log_d("used: %6d (%3d %%), frag: %3d %%, biggest free: %6d\n", (int)mon.total_size - mon.free_size, mon.used_pct, mon.frag_pct, (int)mon.free_biggest_size);
+}
+
 static uint32_t my_tick(void) {
     return millis();
 }
 
 void loop_task(void *task) {
-    Serial.println("LVGL loop task");
+    log_d("LVGL loop task");
     while (1) {
         uint32_t tick = lv_timer_handler();
         // lv_tick_inc(tick);
@@ -128,6 +135,8 @@ void setup_custom() {
     lv_demo_music();
     // lv_demo_widgets();
     // lv_demo_benchmark();
+
+    xTaskCreate(info_task, "info", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
     xTaskCreate(loop_task, "loop", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
 }
 

@@ -3,9 +3,10 @@
 #include <Arduino.h>
 
 #include "esp32c3_supermini.h"
-#include "common_tasks.h"
+#include "common_tasks_esp32.h"
 
 void setup_custom() {
+    xTaskCreate(info_task, "info", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
     xTaskCreate(led_task, "led", CONFIG_ARDUINO_LOOP_STACK_SIZE, (void*)MY_LED_PIN, 10, NULL);
 }
 
