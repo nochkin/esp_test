@@ -1,4 +1,4 @@
-[https://github.com/nochkin/esp_test.git](https://github.com/nochkin/esp_test.git)
+[https://github.com/nochkin/esp_test.git](https://github.com/nochkin/esp_test)
 
 # ESP Test
 
@@ -18,7 +18,7 @@ It uses PlatformIO framework to download all required dependencies and build fir
 - ESP32-C3 Super Mini
   * LED on GPIO 8
 - Lilygo T-Display (ESP32)
-  * ST7789 SPI LCD
+  * ST7789 SPI LCD with LVGL
 - ESP32
 - ESP8266
 
