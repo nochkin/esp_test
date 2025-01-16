@@ -136,6 +136,19 @@ static void disp_flush(lv_display_t *disp, const lv_area_t *area, unsigned char 
     lv_display_flush_ready(disp);
 }
 
+static void touchpad_read(lv_indev_t * indev_drv, lv_indev_data_t * data) {
+    uint16_t touchX, touchY;
+    data->state = LV_INDEV_STATE_RELEASED;
+    uint8_t touches = tft.getTouch(&touchX, &touchY);
+    if (touches > 0) {
+        data->state = LV_INDEV_STATE_PRESSED;
+
+        data->point.x = touchX;
+        data->point.y = touchY;
+        // Serial.printf("Touch: (%03d,%03d)\n", data->point.x, data->point.y);
+    }
+}
+
 void show_lv_mem() {
     lv_mem_monitor_t mon;
     lv_mem_monitor(&mon);
@@ -173,6 +186,10 @@ static void my_lvgl_init() {
     lv_display_set_flush_cb(disp_drv, disp_flush);
     lv_display_set_buffers(disp_drv, disp_buf, NULL, sizeof(disp_buf), LV_DISPLAY_RENDER_MODE_PARTIAL);
 
+    lv_indev_t *indev_drv = lv_indev_create();
+    lv_indev_set_type(indev_drv, LV_INDEV_TYPE_POINTER);
+    lv_indev_set_read_cb(indev_drv, touchpad_read);
+
     // rotate(disp_drv);
     // lv_theme_t *lv_theme = lv_theme_default_init(disp_drv, lv_palette_main(LV_PALETTE_GREEN), lv_palette_main(LV_PALETTE_GREY), true, LV_FONT_DEFAULT);
     // lv_disp_set_theme(disp_drv, lv_theme);
@@ -182,8 +199,8 @@ static void my_lvgl_init() {
 
 void setup_custom() {
     my_lvgl_init();
-    lv_demo_music();
-    // lv_demo_widgets();
+    // lv_demo_music();
+    lv_demo_widgets();
     // lv_demo_benchmark();
 
     xTaskCreate(info_task, "info", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
