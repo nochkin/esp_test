@@ -23,10 +23,10 @@ public:
         {
             auto cfg = _panel_instance.config();
 
-            cfg.memory_width  = 480;
-            cfg.memory_height = 480;
-            cfg.panel_width  = 480;
-            cfg.panel_height = 480;
+            cfg.memory_width  = LV_HOR_RES;
+            cfg.memory_height = LV_VER_RES;
+            cfg.panel_width  = LV_HOR_RES;
+            cfg.panel_height = LV_VER_RES;
 
             cfg.offset_x = 0;
             cfg.offset_y = 0;
@@ -68,7 +68,7 @@ public:
             cfg.pin_vsync   = GPIO_NUM_17;
             cfg.pin_hsync   = GPIO_NUM_16;
             cfg.pin_pclk    = GPIO_NUM_21;
-            cfg.freq_write  = 14000000;
+            cfg.freq_write  = 14 * 1000 * 1000;
 
             cfg.hsync_polarity    = 0;
             cfg.hsync_front_porch = 10;
@@ -114,7 +114,7 @@ public:
 
         {
             auto cfg = _light_instance.config();
-            cfg.pin_bl = GPIO_NUM_44;
+            cfg.pin_bl = GPIO_NUM_38;
             _light_instance.config(cfg);
         }
         _panel_instance.light(&_light_instance);
@@ -126,7 +126,7 @@ public:
 LGFX_4848s040 tft;
 uint32_t lv_width = LV_HOR_RES;
 uint32_t lv_height = LV_VER_RES;
-uint8_t disp_buf[480 * 10 * sizeof(lv_color_t)];
+uint8_t disp_buf[480 * 100 * sizeof(lv_color_t)];
 
 static void disp_flush(lv_display_t *disp, const lv_area_t *area, unsigned char *color_p) {
     uint32_t w = lv_area_get_width(area);
@@ -167,7 +167,7 @@ static void my_lvgl_init() {
     tft.init();
     lv_init();
 
-    tft.setBrightness(10);
+    tft.setBrightness(128);
 
     lv_display_t *disp_drv = lv_display_create(lv_width, lv_height);
     lv_display_set_flush_cb(disp_drv, disp_flush);
