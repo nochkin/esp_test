@@ -68,7 +68,7 @@ public:
             cfg.pin_vsync   = GPIO_NUM_17;
             cfg.pin_hsync   = GPIO_NUM_16;
             cfg.pin_pclk    = GPIO_NUM_21;
-            cfg.freq_write  = 14 * 1000 * 1000;
+            cfg.freq_write  = 12 * 1000 * 1000;
 
             cfg.hsync_polarity    = 0;
             cfg.hsync_front_porch = 10;
@@ -123,10 +123,15 @@ public:
     }
 };
 
+#define LVGL_BUF_SIZE LV_HOR_RES * 100 * sizeof(lv_color_t)
+uint8_t disp_buf[LVGL_BUF_SIZE];
+// lv_color_t *disp_buf = (lv_color_t*) heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_INTERNAL);
+// lv_color_t *disp_buf2 = (lv_color_t*) heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_SPIRAM);
+
 LGFX_4848s040 tft;
+
 uint32_t lv_width = LV_HOR_RES;
 uint32_t lv_height = LV_VER_RES;
-uint8_t disp_buf[480 * 100 * sizeof(lv_color_t)];
 
 static void disp_flush(lv_display_t *disp, const lv_area_t *area, unsigned char *color_p) {
     uint32_t w = lv_area_get_width(area);
@@ -184,7 +189,7 @@ static void my_lvgl_init() {
 
     lv_display_t *disp_drv = lv_display_create(lv_width, lv_height);
     lv_display_set_flush_cb(disp_drv, disp_flush);
-    lv_display_set_buffers(disp_drv, disp_buf, NULL, sizeof(disp_buf), LV_DISPLAY_RENDER_MODE_PARTIAL);
+    lv_display_set_buffers(disp_drv, disp_buf, NULL, LVGL_BUF_SIZE, LV_DISPLAY_RENDER_MODE_PARTIAL);
 
     lv_indev_t *indev_drv = lv_indev_create();
     lv_indev_set_type(indev_drv, LV_INDEV_TYPE_POINTER);
@@ -199,8 +204,8 @@ static void my_lvgl_init() {
 
 void setup_custom() {
     my_lvgl_init();
-    // lv_demo_music();
-    lv_demo_widgets();
+    lv_demo_music();
+    // lv_demo_widgets();
     // lv_demo_benchmark();
 
     xTaskCreate(info_task, "info", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
