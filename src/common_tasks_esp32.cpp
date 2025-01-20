@@ -3,6 +3,9 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include <WiFi.h>
+#include <Wire.h>
+
+#include "common_tasks_esp32.h"
 
 void ws2812_task(void *task) {
     uint8_t led_pin = (uint32_t)task & 0xff;
@@ -92,6 +95,37 @@ void wifi_task(void *task) {
         }
     }
 
+    vTaskDelete(NULL);
+}
+
+void i2c_scan_task(void *task) {
+    i2c_cfg_t *i2c_info = (i2c_cfg_t *)task;
+    uint8_t devices = 0;
+
+    log_v("Satrt I2C scan using sda:%i, scl:%i", i2c_info->sda, i2c_info->scl);
+    Wire.begin(i2c_info->sda, i2c_info->scl, i2c_info->freq);
+    delay(1000);
+    for (uint8_t address = 0x01; address < 0x7f; address++) {
+        Wire.beginTransmission(address);
+        uint8_t scan_error = Wire.endTransmission();
+        switch (scan_error) {
+            case 0:
+                log_v("I2C device at 0x%02X", address);
+                devices++;
+                break;
+            /*
+            case 2:
+                Serial.printf("I2C error at 0x%02X\n", address);
+                break;
+            */
+        }
+    }
+
+    if (devices == 0) {
+        log_v("No I2C devices found at sda:%i, scl:%i", i2c_info->sda, i2c_info->scl);
+    }
+
+    Wire.end();
     vTaskDelete(NULL);
 }
 
