@@ -9,13 +9,18 @@ It uses PlatformIO framework to download all required dependencies and build fir
 ## Supported microcontrollers/boards
 
 - ESP32-S3
-  * N16R8 and N8R2 variation [boards](https://github.com/vcc-gnd/YD-ESP32-S3)
+  * N16R8 and N8R2 variations [boards](https://github.com/vcc-gnd/YD-ESP32-S3)
   * WS2812 LED on GPIO 48
 - ESP32-S3 Super Mini
   * WS2812 LED on GPIO 48
+- ESP32_4848S040 (ESP32-S3)
+  * ST7701 RGB Panel with GT911 Touch
 - ESP32-C6 Super Mini
   * WS2812 LED on GPIO 8
 - ESP32-C3 Super Mini
+  * LED on GPIO 8
+- ESP32-C3
+  * SSD1306 I2C 0.42" OLED with U8g2
   * LED on GPIO 8
 - Lilygo T-Display (ESP32)
   * ST7789 SPI LCD with LVGL
@@ -50,7 +55,9 @@ Where "board" is any of the following:
 - esp32s3_n8r2
 - esp32s3_supermini
 - esp32c6_supermini
+- esp32c3_042_oled
 - esp32c3_supermini
+- esp32_4848s040
 - esp32_tdisplay
 - esp32
 - esp8266
@@ -60,6 +67,9 @@ The command will automatically download all required libraries, compilers, then 
 ### 3. Monitor Serial Output
 
 Check the Serial port as the most diagnostics will be sent there.
+```bash
+pio run -t monitor
+```
 
 ## License
 
