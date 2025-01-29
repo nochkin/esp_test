@@ -15,6 +15,8 @@ It uses PlatformIO framework to download all required dependencies and build fir
   * WS2812 LED on GPIO 48
 - ESP32_4848S040 (ESP32-S3)
   * ST7701 RGB Panel with GT911 Touch
+- ESP32-8048S043 (ESP32-S3)
+  * ST7262 RGB Panel with GT911 Touch
 - ESP32-C6 Super Mini
   * WS2812 LED on GPIO 8
 - ESP32-C3 Super Mini
@@ -58,6 +60,7 @@ Where "board" is any of the following:
 - esp32c3_042_oled
 - esp32c3_supermini
 - esp32_4848s040
+- esp32_8048s043
 - esp32_tdisplay
 - esp32
 - esp8266
