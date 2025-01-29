@@ -20,6 +20,8 @@ void loop_custom();
 #include "esp32s3_n8r2.h"
 #elif PIOENV_esp32_4848s040
 #include "esp32_4848s040.h"
+#elif PIOENV_esp32_8048s043
+#include "esp32_8048s043.h"
 #elif PIOENV_esp32c3_042_oled
 #include "esp32c3_042_oled.h"
 #endif
