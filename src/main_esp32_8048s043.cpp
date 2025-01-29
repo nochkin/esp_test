@@ -37,7 +37,7 @@ public:
         {
             auto cfg = _panel_instance.config_detail();
 
-            cfg.use_psram = 1;
+            // cfg.use_psram = 1;
 
             _panel_instance.config_detail(cfg);
         }
@@ -117,10 +117,11 @@ public:
     }
 };
 
-#define LVGL_BUF_SIZE LV_HOR_RES * 50 * sizeof(lv_color_t)
+#define LVGL_BUF_SIZE LV_HOR_RES * 60 * sizeof(lv_color_t)
 uint8_t disp_buf[LVGL_BUF_SIZE];
 // lv_color_t *disp_buf = (lv_color_t*) heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_INTERNAL);
 // lv_color_t *disp_buf2 = (lv_color_t*) heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_SPIRAM);
+// static lv_color_t *disp_buf = (lv_color_t *)heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
 
 LGFX_8048s043 tft;
 
@@ -199,12 +200,12 @@ static void my_lvgl_init() {
 
 void setup_custom() {
     my_lvgl_init();
-    lv_demo_music();
-    // lv_demo_widgets();
+    // lv_demo_music();
+    lv_demo_widgets();
     // lv_demo_benchmark();
 
     xTaskCreate(info_task, "info", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
-    // xTaskCreate(wifi_task, "wifi", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
+    xTaskCreate(wifi_task, "wifi", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
     xTaskCreate(loop_task, "loop", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
 
     /*
