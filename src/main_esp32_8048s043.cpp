@@ -9,6 +9,8 @@
 #include <lgfx/v1/platforms/esp32s3/Panel_RGB.hpp>
 #include <lgfx/v1/platforms/esp32s3/Bus_RGB.hpp>
 
+// #include <Arduino_GFX_Library.h>
+
 #include "esp32_8048s043.h"
 #include "common_tasks_esp32.h"
 
@@ -117,13 +119,27 @@ public:
     }
 };
 
+LGFX_8048s043 tft;
+
+//Arduino_ESP32RGBPanel *bus = new Arduino_ESP32RGBPanel(
+//    40 /* DE */, 41 /* VSYNC */, 39 /* HSYNC */, 42 /* PCLK */,
+//    45 /* R0 */, 48 /* R1 */, 47 /* R2 */, 21 /* R3 */, 14 /* R4 */,
+//    5 /* G0 */, 6 /* G1 */, 7 /* G2 */, 15 /* G3 */, 16 /* G4 */, 4 /* G5 */,
+//    8 /* B0 */, 3 /* B1 */, 46 /* B2 */, 9 /* B3 */, 1 /* B4 */,
+//    0 /* hsync_polarity */, 8 /* hsync_front_porch */, 4 /* hsync_pulse_width */, 8 /* hsync_back_porch */,
+//    0 /* vsync_polarity */, 8 /* vsync_front_porch */, 4 /* vsync_pulse_width */, 8 /* vsync_back_porch */,
+//    1 , 14 * 1000 * 1000, false, 1, 1
+//);
+
+//Arduino_RGB_Display *gfx = new Arduino_RGB_Display(
+//    800 /* width */, 480 /* height */, bus, 0 /* rotation */, true /* auto_flush */);
+
 #define LVGL_BUF_SIZE LV_HOR_RES * 60 * sizeof(lv_color_t)
-uint8_t disp_buf[LVGL_BUF_SIZE];
-// lv_color_t *disp_buf = (lv_color_t*) heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_INTERNAL);
+// uint8_t disp_buf[LVGL_BUF_SIZE];
+// lv_color_t *disp_buf = (lv_color_t *)gfx->getFramebuffer();
+lv_color_t *disp_buf = (lv_color_t*) heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_INTERNAL);
 // lv_color_t *disp_buf2 = (lv_color_t*) heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_SPIRAM);
 // static lv_color_t *disp_buf = (lv_color_t *)heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
-
-LGFX_8048s043 tft;
 
 uint32_t lv_width = LV_HOR_RES;
 uint32_t lv_height = LV_VER_RES;
@@ -133,7 +149,9 @@ static void disp_flush(lv_display_t *disp, const lv_area_t *area, unsigned char 
     uint32_t h = lv_area_get_height(area);
     // lv_draw_sw_rgb565_swap(color_p, w*h);
     tft.pushImageDMA(area->x1, area->y1, w, h, (uint16_t *)color_p);
-    lv_display_flush_ready(disp);
+
+    // gfx->draw16bitBeRGBBitmap(area->x1, area->y1, (uint16_t *)color_p, w, h);
+    lv_disp_flush_ready(disp);
 }
 
 static void touchpad_read(lv_indev_t * indev_drv, lv_indev_data_t * data) {
@@ -169,7 +187,7 @@ void loop_task(void *task) {
 }
 
 static void rotate(lv_display_t *disp_drv) {
-    tft.setRotation(1);
+    // tft.setRotation(1);
     lv_display_set_rotation(disp_drv, LV_DISPLAY_ROTATION_90);
     lv_width = LV_VER_RES;
     lv_height = LV_HOR_RES;
@@ -177,7 +195,10 @@ static void rotate(lv_display_t *disp_drv) {
 }
 
 static void my_lvgl_init() {
+    analogWrite(2, 120);
     tft.init();
+    // gfx->begin();
+
     lv_init();
 
     // tft.setBrightness(250);
