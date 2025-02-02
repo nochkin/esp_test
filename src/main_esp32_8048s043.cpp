@@ -78,7 +78,7 @@ public:
             cfg.vsync_pulse_width = 4;
             cfg.vsync_back_porch  = 8;
             cfg.pclk_idle_high    = 1;
-            cfg.freq_write        = 14 * 1000 * 1000;
+            cfg.freq_write        = 16 * 1000 * 1000;
             _bus_instance.config(cfg);
         }
         _panel_instance.setBus(&_bus_instance);
@@ -135,9 +135,10 @@ LGFX_8048s043 tft;
 //    800 /* width */, 480 /* height */, bus, 0 /* rotation */, true /* auto_flush */);
 
 #define LVGL_BUF_SIZE LV_HOR_RES * 60 * sizeof(lv_color_t)
-// uint8_t disp_buf[LVGL_BUF_SIZE];
+uint8_t disp_buf[LVGL_BUF_SIZE];
 // lv_color_t *disp_buf = (lv_color_t *)gfx->getFramebuffer();
-lv_color_t *disp_buf = (lv_color_t*) heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_INTERNAL);
+// lv_color_t *disp_buf = (lv_color_t*) heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_INTERNAL);
+// lv_color_t *disp_buf = (lv_color_t*) heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_SPIRAM | MALLOC_CAP_DMA);
 // lv_color_t *disp_buf2 = (lv_color_t*) heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_SPIRAM);
 // static lv_color_t *disp_buf = (lv_color_t *)heap_caps_malloc(LVGL_BUF_SIZE, MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
 
@@ -221,8 +222,8 @@ static void my_lvgl_init() {
 
 void setup_custom() {
     my_lvgl_init();
-    // lv_demo_music();
-    lv_demo_widgets();
+    lv_demo_music();
+    // lv_demo_widgets();
     // lv_demo_benchmark();
 
     xTaskCreate(info_task, "info", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 10, NULL);
