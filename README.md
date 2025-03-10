@@ -19,7 +19,7 @@ It uses PlatformIO framework to download all required dependencies and build fir
   * ST7262 RGB Panel with GT911 Touch
 - ESP32-C6 Super Mini
   * WS2812 LED on GPIO 8
-- ESP32-C6 N8/N16 Nano by MuseLab
+- ESP32-C6 N8/N16 Nano by [MuseLab](https://github.com/wuxx/nanoESP32-C6)
   * WS2812 LED on GPIO 8
 - ESP32-C3 Super Mini
   * LED on GPIO 8
