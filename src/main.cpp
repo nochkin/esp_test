@@ -28,6 +28,9 @@ void loop_custom();
 #include "esp32_8048s043.h"
 #elif PIOENV_esp32c3_042_oled
 #include "esp32c3_042_oled.h"
+#else
+    void setup_custom() {}
+    void loop_custom() {}
 #endif
 
 void setup() {
