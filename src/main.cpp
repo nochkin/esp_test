@@ -12,6 +12,8 @@ void loop_custom();
 #include "esp32c3_supermini.h"
 #elif PIOENV_esp32c6_supermini
 #include "esp32c6_supermini.h"
+#elif PIOENV_esp32c6_n8_nano
+#include "esp32c6_nano.h"
 #elif PIOENV_esp32s3_supermini
 #include "esp32s3_supermini.h"
 #elif PIOENV_esp32s3_n16r8
