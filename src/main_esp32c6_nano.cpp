@@ -1,4 +1,4 @@
-#ifdef PIOENV_esp32c6_n8_nano
+#if defined(PIOENV_esp32c6_n8_nano) || defined(PIOENV_esp32c6_n16_nano)
 
 #include <Arduino.h>
 
