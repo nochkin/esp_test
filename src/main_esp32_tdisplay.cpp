@@ -106,11 +106,10 @@ void loop_task(void *task) {
 }
 
 static void rotate(lv_display_t *disp_drv) {
-    tft.setRotation(1);
-    lv_display_set_rotation(disp_drv, LV_DISPLAY_ROTATION_90);
+    tft.setRotation(3);
+    lv_display_set_rotation(disp_drv, LV_DISPLAY_ROTATION_270);
     lv_width = LV_VER_RES;
     lv_height = LV_HOR_RES;
-
 }
 
 static void my_lvgl_init() {
