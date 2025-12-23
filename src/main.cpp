@@ -28,12 +28,15 @@ void loop_custom();
 #include "esp32_8048s043.h"
 #elif PIOENV_esp32c3_042_oled
 #include "esp32c3_042_oled.h"
+#elif PIOENV_esp32s3_ai
+#include "esp32s3_ai.h"
 #else
-    void setup_custom() {}
-    void loop_custom() {}
+void setup_custom() {}
+void loop_custom() {}
 #endif
 
-void setup() {
+void setup()
+{
     delay(1000);
     Serial.begin(115200);
     Serial.println("");
@@ -41,6 +44,7 @@ void setup() {
     setup_custom();
 }
 
-void loop() {
+void loop()
+{
     loop_custom();
 }
