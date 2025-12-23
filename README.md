@@ -13,7 +13,7 @@ It uses PlatformIO framework to download all required dependencies and build fir
   * WS2812 LED on GPIO 48
 - ESP32-S3 Super Mini
   * WS2812 LED on GPIO 48
-- ESP32-S3 AI from SpotPear
+- ESP32-S3 AI by [SpotPear](https://spotpear.com/wiki/ESP32-S3-AI-1.54-inch-LCD-Display-TouchScreen-N16R8-muma-DeepSeek.html)
   * ST7789 SPI with CST816 Touch
 - ESP32_4848S040 (ESP32-S3)
   * ST7701 RGB Panel with GT911 Touch
