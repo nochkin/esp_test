@@ -5,7 +5,7 @@
 #define MY_TFT_DC 47
 #define MY_TFT_RST 38
 #define MY_TFT_CS 5
-#define MY_TFT_SPI_FREQ 40 * 1000 * 1000
+#define MY_TFT_SPI_FREQ 160 * 1000 * 1000
 
 #define MY_TFT_BL 42
 
