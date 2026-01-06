@@ -4,7 +4,7 @@
 #include <FreeRTOS.h>
 #include <FastLED.h>
 
-#include "ws_esp32s3_pico_n16r2.h"
+#include "ws_esp32s3_pico.h"
 #include "common_tasks_esp32.h"
 
 void setup_custom() {
