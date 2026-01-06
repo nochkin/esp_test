@@ -17,6 +17,9 @@ void ws2812_task(void *task) {
 
     switch (led_pin) {
 #ifdef CONFIG_IDF_TARGET_ESP32S3
+        case 21:
+            FastLED.addLeds<WS2812, 21>(leds, 1);
+            break;
         case 48:
             FastLED.addLeds<WS2812, 48>(leds, 1);
             break;
