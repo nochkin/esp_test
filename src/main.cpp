@@ -30,6 +30,8 @@ void loop_custom();
 #include "esp32c3_042_oled.h"
 #elif PIOENV_esp32s3_ai
 #include "esp32s3_ai.h"
+#elif PIOENV_sp_esp32s3_nano
+#include "sp_esp32s3_nano.h"
 #elif PIOENV_ws_esp32s3_pico_n16r2
 #include "ws_esp32s3_pico.h"
 #elif PIOENV_white_esp32_s3_nano_n16r8
