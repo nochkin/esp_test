@@ -36,6 +36,8 @@ void loop_custom();
 #include "ws_esp32s3_pico.h"
 #elif PIOENV_white_esp32_s3_nano_n16r8
 #include "white_esp32_s3_nano.h"
+#elif PIOENV_luatos_esp32c3
+#include "luatos_esp32c3.h"
 #else
 void setup_custom() {}
 void loop_custom() {}
