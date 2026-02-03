@@ -7,7 +7,8 @@
 
 #include "common_tasks_esp32.h"
 
-void ws2812_task(void *task) {
+void ws2812_task(void *task)
+{
     uint8_t led_pin = (uint32_t)task & 0xff;
     uint8_t hue = 0;
     int8_t hue_step = 1;
@@ -15,58 +16,69 @@ void ws2812_task(void *task) {
 
     log_d("WS2812 task on GPIO %i", led_pin);
 
-    switch (led_pin) {
+    switch (led_pin)
+    {
 #ifdef CONFIG_IDF_TARGET_ESP32S3
-        case 21:
-            FastLED.addLeds<WS2812, 21>(leds, 1);
-            break;
-        case 48:
-            FastLED.addLeds<WS2812, 48>(leds, 1);
-            break;
+    case 21:
+        FastLED.addLeds<WS2812, 21>(leds, 1);
+        break;
+    case 48:
+        FastLED.addLeds<WS2812, 48>(leds, 1);
+        break;
 #endif
 #ifdef CONFIG_IDF_TARGET_ESP32C6
-        case 8:
-            FastLED.addLeds<WS2812, 8>(leds, 1);
-            break;
+    case 8:
+        FastLED.addLeds<WS2812, 8>(leds, 1);
+        break;
 #endif
-        default:
-            vTaskDelete(NULL);
-            break;
+    default:
+        vTaskDelete(NULL);
+        break;
     }
 
-    while (true) {
+    while (true)
+    {
         leds[0] = CHSV(hue, 255, 64);
         hue += hue_step;
-        if (hue == 255 || hue == 0) { hue_step = -hue_step; }
+        if (hue == 255 || hue == 0)
+        {
+            hue_step = -hue_step;
+        }
         FastLED.show();
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
 
-void led_task(void *task) {
+void led_task(void *task)
+{
     uint8_t led_pin = (uint32_t)task & 0xff;
     uint8_t brightness = 0;
     int8_t brightness_step = 1;
 
     log_d("LED task on GPIO %i", led_pin);
 
-    while (true) {
+    while (true)
+    {
         analogWrite(led_pin, brightness);
         brightness += brightness_step;
-        if (brightness == 255 || brightness == 0) { brightness_step = -brightness_step; }
+        if (brightness == 255 || brightness == 0)
+        {
+            brightness_step = -brightness_step;
+        }
         vTaskDelay(5 / portTICK_PERIOD_MS);
     }
 }
 
-void info_task(void *task) {
+void info_task(void *task)
+{
     uint64_t mac = ESP.getEfuseMac();
     log_d("MAC: %02X:%02X:%02X:%02X:%02X:%02X",
-        (uint8_t)(mac >> 40),
-        (uint8_t)(mac >> 32),
-        (uint8_t)(mac >> 24),
-        (uint8_t)(mac >> 16),
-        (uint8_t)(mac >> 8),
-        (uint8_t)(mac));
+          (uint8_t)(mac >> 40),
+          (uint8_t)(mac >> 32),
+          (uint8_t)(mac >> 24),
+          (uint8_t)(mac >> 16),
+          (uint8_t)(mac >> 8),
+          (uint8_t)(mac));
 
     log_d("Total heap: %d", ESP.getHeapSize());
     log_d("Free heap: %d", ESP.getFreeHeap());
@@ -76,7 +88,8 @@ void info_task(void *task) {
     vTaskDelete(NULL);
 }
 
-void wifi_task(void *task) {
+void wifi_task(void *task)
+{
     log_d("WiFi task");
 
     WiFi.mode(WIFI_STA);
@@ -84,38 +97,44 @@ void wifi_task(void *task) {
 
     vTaskDelay(pdMS_TO_TICKS(1000));
     int16_t count = WiFi.scanNetworks();
-    if (count == 0) {
+    if (count == 0)
+    {
         log_v("No WiFI APs found");
-    } else {
-        for (int16_t ii=0; ii<count; ii++) {
+    }
+    else
+    {
+        for (int16_t ii = 0; ii < count; ii++)
+        {
             log_v("%02d: %s (%d dBm) %s [BSSID: %s]",
-                ii+1,
-                WiFi.SSID(ii).c_str(),
-                WiFi.RSSI(ii), 
-                WiFi.encryptionType(ii) == WIFI_AUTH_OPEN ? "Open" : "Protected",
-                WiFi.BSSIDstr(ii).c_str()
-            );
+                  ii + 1,
+                  WiFi.SSID(ii).c_str(),
+                  WiFi.RSSI(ii),
+                  WiFi.encryptionType(ii) == WIFI_AUTH_OPEN ? "Open" : "Protected",
+                  WiFi.BSSIDstr(ii).c_str());
         }
     }
 
     vTaskDelete(NULL);
 }
 
-void i2c_scan_task(void *task) {
+void i2c_scan_task(void *task)
+{
     i2c_cfg_t *i2c_info = (i2c_cfg_t *)task;
     uint8_t devices = 0;
 
     log_v("Satrt I2C scan using sda:%i, scl:%i", i2c_info->sda, i2c_info->scl);
     Wire.begin(i2c_info->sda, i2c_info->scl, i2c_info->freq);
     delay(1000);
-    for (uint8_t address = 0x01; address < 0x7f; address++) {
+    for (uint8_t address = 0x01; address < 0x7f; address++)
+    {
         Wire.beginTransmission(address);
         uint8_t scan_error = Wire.endTransmission();
-        switch (scan_error) {
-            case 0:
-                log_v("I2C device at 0x%02X", address);
-                devices++;
-                break;
+        switch (scan_error)
+        {
+        case 0:
+            log_v("I2C device at 0x%02X", address);
+            devices++;
+            break;
             /*
             case 2:
                 Serial.printf("I2C error at 0x%02X\n", address);
@@ -124,12 +143,108 @@ void i2c_scan_task(void *task) {
         }
     }
 
-    if (devices == 0) {
+    if (devices == 0)
+    {
         log_v("No I2C devices found at sda:%i, scl:%i", i2c_info->sda, i2c_info->scl);
     }
 
     Wire.end();
     vTaskDelete(NULL);
 }
+
+#if defined(PIOENV_esp32s3_cam)
+void camera_task(void *task)
+{
+    log_d("Camera task");
+
+    vTaskDelay(pdMS_TO_TICKS(500));
+    camera_config_t config = *(camera_config_t *)task;
+    if (psramFound())
+    {
+        config.frame_size = FRAMESIZE_UXGA;
+        config.jpeg_quality = 10;
+        config.fb_count = 2;
+    }
+    else
+    {
+        config.frame_size = FRAMESIZE_SVGA;
+        config.jpeg_quality = 12;
+        config.fb_count = 1;
+    }
+
+    // Camera init
+    esp_err_t err = esp_camera_init(&config);
+    if (err != ESP_OK)
+    {
+        log_e("Camera init failed with error 0x%x", err);
+        vTaskDelete(NULL);
+        return;
+    }
+
+    log_d("Camera initialized");
+
+    sensor_t *sensor = esp_camera_sensor_get();
+    const char *camera_model = "Unknown";
+    switch (sensor->id.PID)
+    {
+    case OV2640_PID:
+        camera_model = "OV2640";
+        break;
+    case OV3660_PID:
+        camera_model = "OV3660";
+        break;
+    case OV5640_PID:
+        camera_model = "OV5640";
+        break;
+    case OV7670_PID:
+        camera_model = "OV7670";
+        break;
+    case OV7725_PID:
+        camera_model = "OV7725";
+        break;
+    case NT99141_PID:
+        camera_model = "NT99141";
+        break;
+    case GC032A_PID:
+        camera_model = "GC032A";
+        break;
+    case GC0308_PID:
+        camera_model = "GC0308";
+        break;
+    case GC2145_PID:
+        camera_model = "GC2145";
+        break;
+    case BF3005_PID:
+        camera_model = "BF3005";
+        break;
+    case BF20A6_PID:
+        camera_model = "BF20A6";
+        break;
+    case SC101IOT_PID:
+        camera_model = "SC101IOT";
+        break;
+    case SC030IOT_PID:
+        camera_model = "SC030IOT";
+        break;
+    case SC031GS_PID:
+        camera_model = "SC031GS";
+        break;
+    case MEGA_CCM_PID:
+        camera_model = "MEGA_CCM";
+        break;
+    default:
+        camera_model = "Unknown";
+        break;
+    }
+    log_d("Camera model: %s", camera_model);
+
+    while (true)
+    {
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }
+
+    vTaskDelete(NULL);
+}
+#endif
 
 #endif
