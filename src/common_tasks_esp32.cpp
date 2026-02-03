@@ -157,16 +157,17 @@ void camera_task(void *task)
 {
     log_d("Camera task");
 
-    vTaskDelay(pdMS_TO_TICKS(500));
     camera_config_t config = *(camera_config_t *)task;
     if (psramFound())
     {
+        log_d("PSRAM found, using UXGA resolution");
         config.frame_size = FRAMESIZE_UXGA;
         config.jpeg_quality = 10;
         config.fb_count = 2;
     }
     else
     {
+        log_d("PSRAM not found, using SVGA resolution");
         config.frame_size = FRAMESIZE_SVGA;
         config.jpeg_quality = 12;
         config.fb_count = 1;

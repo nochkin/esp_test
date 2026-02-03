@@ -22,6 +22,10 @@ It uses PlatformIO framework to download all required dependencies and build fir
 - ESP32-S3 Nano by [SpotPear](https://spotpear.com/wiki/Compatible-With-Arduino-Nano-ESP32-S3R8.html)
   * LED on GPIO 48
   * RGB LED on GPIO 46/0/5
+- ESP32-S3 N16R8 Camera [Freenove](https://store.freenove.com/products/fnk0085)
+  * Camera
+  * LED on GPIO 2
+  * WS2812 LED on GPIO 48
 - ESP32_4848S040 (ESP32-S3)
   * ST7701 RGB Panel with GT911 Touch
 - ESP32-8048S043 (ESP32-S3)
@@ -71,6 +75,7 @@ Where "board" is any of the following:
 - esp32s3_n8r2
 - esp32s3_supermini
 - esp32s3_ai
+- esp32s3_cam
 - sp_esp32s3_nano
 - ws_esp32s3_pico_n16r2
 - white_esp32_s3_nano_n16r8

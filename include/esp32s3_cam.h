@@ -1,5 +1,5 @@
 #define MY_WS2812_PIN 48
-#define MY_LED1_PIN 02
+#define MY_LED1_PIN 2
 
 // Camera
 #define MY_CAM_D0_PIN 11
