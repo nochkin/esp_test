@@ -39,7 +39,7 @@ It uses PlatformIO framework to download all required dependencies and build fir
 - ESP32-C3
   * SSD1306 I2C 0.42" OLED with U8g2
   * LED on GPIO 8
-- ESP32-c# by [LuatOS](https://wiki.luatos.org/chips/esp32c3/board.html)
+- ESP32-C3 by [LuatOS](https://wiki.luatos.org/chips/esp32c3/board.html)
   * LED1 on GPIO 12
   * LED2 on GPIO 13
 - Lilygo T-Display (ESP32)
