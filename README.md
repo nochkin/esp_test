@@ -8,6 +8,7 @@ It uses PlatformIO framework to download all required dependencies and build fir
 
 ## Supported microcontrollers/boards
 
+### ESP32-S3
 - ESP32-S3 by VCC-GND
   * N16R8 and N8R2 variations [boards](https://github.com/vcc-gnd/YD-ESP32-S3)
   * WS2812 LED on GPIO 48
@@ -30,10 +31,14 @@ It uses PlatformIO framework to download all required dependencies and build fir
   * ST7701 RGB Panel with GT911 Touch
 - Sunton ESP32-8048S043 (ESP32-S3) [Makerfabs](https://wiki.makerfabs.com/Sunton_ESP32_S3_4.3_inch_800x400_IPS_with_Touch.html)
   * ST7262 RGB Panel with GT911 Touch
+
+### ESP32-C6
 - ESP32-C6 Super Mini
   * WS2812 LED on GPIO 8
 - ESP32-C6 N8/N16 Nano by [MuseLab](https://github.com/wuxx/nanoESP32-C6)
   * WS2812 LED on GPIO 8
+
+### ESP32-C3
 - ESP32-C3 Super Mini
   * LED on GPIO 8
 - ESP32-C3
@@ -42,10 +47,14 @@ It uses PlatformIO framework to download all required dependencies and build fir
 - ESP32-C3 by [LuatOS](https://wiki.luatos.org/chips/esp32c3/board.html)
   * LED1 on GPIO 12
   * LED2 on GPIO 13
-- Lilygo T-Display (ESP32)
+
+### ESP32
+- Lilygo T-Display (ESP32) [Lilygo.cc](https://lilygo.cc/en-us/products/t-display)
   * ST7789 SPI LCD with LVGL
-- ESP32
-- ESP8266
+- Generic ESP32
+
+### ESP8266
+- Generic ESP8266
 
 ## Prerequisites
 
