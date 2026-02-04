@@ -26,9 +26,9 @@ It uses PlatformIO framework to download all required dependencies and build fir
   * Camera
   * LED on GPIO 2
   * WS2812 LED on GPIO 48
-- ESP32_4848S040 (ESP32-S3)
+- Guition ESP32-4848S040 (ESP32-S3) [jczn1688.com](http://www.jczn1688.com/)
   * ST7701 RGB Panel with GT911 Touch
-- ESP32-8048S043 (ESP32-S3)
+- Sunton ESP32-8048S043 (ESP32-S3) [Makerfabs](https://wiki.makerfabs.com/Sunton_ESP32_S3_4.3_inch_800x400_IPS_with_Touch.html)
   * ST7262 RGB Panel with GT911 Touch
 - ESP32-C6 Super Mini
   * WS2812 LED on GPIO 8
